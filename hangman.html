@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Hangman</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+var run = true
+var Aword = "hangman"
+var arrayWord = Array.from(Aword)
+var word = arrayWord.join("")
+var letter = 0
+var c = []
+var guessesLeft = 10
+while(run === true){
+  letter = prompt("pick a letter")
+for(i = 0;i < Aword.length;i++){
+  if (letter === word[i]){
+    console.log("correct guess")
+    c.push(letter)
+    console.log(c)
+  }if (letter !== word[i]){
+    console.log("incorrect guess")
+    guessesLeft = guessesLeft - 1
+    console.log(guessesLeft)
+  }
+}
+  run = false
+}
+</script>

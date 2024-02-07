@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Canvas Box</title>
+</head>
+<body>
+<canvas id="canvas" width="800" height="800">
+</canvas>
+</body>
+</html>
+<script>
+  setInterval(draw,16)
+  var canvas = document.getElementById("canvas")
+  var ctx = canvas.getContext("2d")
+  var y = 100
+  var updown = 5
+  function draw(){
+     ctx.clearRect(0,0,800,800)
+     ctx.fillRect(100,y,100,100)
+     y = y + updown
+     if (y > 800) {
+    updown = -updown;
+     }
+     if (y < 0) {
+updown = -updown;
+}
+}
+</script>

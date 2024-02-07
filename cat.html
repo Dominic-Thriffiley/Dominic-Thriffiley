@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>JS Bin</title>
+  <style>
+  img {
+  width: 400px;
+  position: absolute;
+}
+</style>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@webcreate/infinite-ajax-scroll@latest/dist/infinite-ajax-scroll.min.js"></script>
+</head>
+<body>
+</body>
+</html>
+<script>
+var $img = $("<img>");
+$img.attr("src", "https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_square.jpg");
+for (i = 0;i < 10; i++){
+    $("body").append($img);
+  }
+</script>

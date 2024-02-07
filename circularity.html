@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Circularity</title>
+</head>
+
+<body>
+    <canvas id="canvas" width="800" height="800">
+    </canvas>
+</body>
+
+</html>
+<script>
+    setInterval(draw, 16)
+    var canvas = document.getElementById("canvas")
+    var ctx = canvas.getContext("2d")
+    var y = [90, 44, 56, 321, 55, 233, 280, 432, 543, 530]
+    var x = [90, 44, 56, 321, 55, 233, 280, 432, 543, 540]
+    var updown = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    var speed = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    function draw() {
+        ctx.clearRect(0, 0, 1300, 1300)
+        for (var i = 0; i < 10; i = i + 1) {
+            ctx.fillRect(x[i], y[i], 10, 10)
+            y[i] = y[i] + updown[i]
+            x[i] = x[i] + speed[i]
+            if (y[i] > 550) {
+                updown[i] = -updown[i];
+            }
+            if (y[i] < 0) {
+                updown[i] = -updown[i];
+            } if (x[i] > 1050) {
+                speed[i] = -speed[i];
+            } if (x[i] < 0) {
+                speed[i] = -speed[i]
+            }
+        }
+
+    }
+
+</script>

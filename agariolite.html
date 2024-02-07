@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Agario Lite</title>
+</head>
+
+<body>
+    <canvas id="canvas" width="800" height="800">
+    </canvas>
+</body>
+
+</html>
+<script>
+    document.addEventListener("mousemove", mousemove)
+    setInterval(draw, 16)
+    var canvas = document.getElementById("canvas")
+    var ctx = canvas.getContext("2d")
+    var y = []
+    var x = []
+    var updown = []
+    var speed = []
+    var radius = []
+    var mouseX = 100
+    var mouseY = 100
+    var mouseradius = 20
+    var alive = true
+    var score = 0
+
+    function respawn(circleNumber) {
+        x[circleNumber] = (Math.random() * 100 - 150)
+        y[circleNumber] = (Math.random() * 100 - 100)
+        updown[circleNumber] = (Math.random() * 10)
+        speed[circleNumber] = (Math.random() * 10)
+        radius[circleNumber] = (Math.random() * 100)
+    }
+
+    for (var i = 0; i < 17; i = i + 1) {
+        respawn(i)
+    }
+
+    function draw() {
+        ctx.clearRect(0, 0, 1300, 1300)
+        if (alive === true) {
+            ctx.beginPath()
+            ctx.arc(mouseX, mouseY, mouseradius, 0, 7)
+            ctx.fill()
+        }
+
+
+        for (var i = 0; i < 17; i = i + 1) {
+            if (x[i] > 800) {
+                respawn(i)
+            }
+            if (alive === true) {
+                ctx.beginPath()
+                ctx.arc(x[i], y[i], radius[i], 0, 7)
+                ctx.fill()
+            }
+            x[i] = x[i] + speed[i]
+            y[i] = y[i] + updown[i]
+            var radiussum = radius[i] + mouseradius
+            var a = mouseX - x[i]
+            var b = mouseY - y[i]
+            var DistanceBetweenCicleAndMouse = Math.sqrt(Math.pow(a, 2)) + (Math.pow(b, 2))
+            if (DistanceBetweenCicleAndMouse < radiussum) {
+                if (mouseradius > radius[i]) {
+                    respawn(i)
+                    mouseradius = mouseradius + radius[i] / 3
+                    score = score + 1
+                }
+            }
+            if (DistanceBetweenCicleAndMouse < radiussum) {
+                if (mouseradius < radius[i]) {
+                    alive = false
+                }
+            }
+        } if (alive === false) {
+            ctx.font = "48px serif";
+            ctx.fillText("Dead, click to restart", 100, 100);
+            ctx.fillText(score, 100, 200)
+        }
+    }
+    function mousemove(e) {
+        mouseX = e.x
+        mouseY = e.y
+    }
+</script>

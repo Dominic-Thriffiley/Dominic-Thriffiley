@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Minesweeper</title>
+</head>
+
+<body>
+  <canvas id="myCanvas" width="1800" height="1100">
+</body>
+
+</html>
+<script>
+  var c = document.getElementById("myCanvas");
+  var ctx = c.getContext("2d");
+  document.getElementById("myCanvas").addEventListener("click", clickHandler)
+  var mouseX = 10000
+  var mouseY = 10000
+  var gridSize = 101
+  setInterval(draw, 500)
+  var uncoveredX = []
+  var uncoveredY = []
+  var covered = []
+  var bomb = []
+  var coveredOld = [[true, false, true, true],
+  [true, false, true, false],
+  [true, false, true, true],
+  [true, true, true, false],
+  [true, true, true, true]]
+  function clickHandler(e) {
+    mouseX = e.x
+    mouseY = e.y
+    var cx = (mouseY - (mouseY % gridSize)) / 101
+    var cy = (mouseX - (mouseX % gridSize)) / 101
+    for (i = -1; i < 2; i++) {
+      for (j = -1; j < 2; j++) {
+        bombCheck(cx + i, cy + j)
+      }
+      covered[cx][cy] = false
+      // ctx.fillStyle = "red"
+      // ctx.fillRect(cx,cy, 100, 100)
+      // uncoveredX.push(mouseX - (mouseX%gridSize))
+      // uncoveredY.push(mouseY - (mouseY%gridSize))
+    }
+  }
+
+  for (i = 0; i < 8; i++) {
+    covered.push([])
+    bomb.push([])
+    for (j = 0; j < 8; j++) {
+      covered[i].push(false)
+      bomb[i].push(false)
+    }
+  }
+
+  for (i = 0; i < 10; i++) {
+    bomb[Math.floor(Math.random() * 8)][Math.floor(Math.random() * 8)] = true
+  }
+
+  function draw() {
+    for (i = 0; i < covered.length; i++) {
+      for (j = 0; j < covered[i].length; j++) {
+        if (covered[i][j]) {
+          ctx.fillStyle = "darkgreen"
+        } else {
+          if (bomb[i][j]) {
+            ctx.fillStyle = 'red'
+          } else {
+            ctx.fillStyle = "gray"
+          }
+        }
+        ctx.fillRect(j * gridSize, i * gridSize, 100, 100)
+      }
+    }
+  }
+  function bombCheck(cx, cy) {
+    var number = 0
+    if (bomb[cx - 1][cy - 1]) {
+      number = number + 1
+    } if (bomb[cx - 1][cy + 1]) {
+      number = number + 1
+    } if (bomb[cx - 1][cy]) {
+      number = number + 1
+    } if (bomb[cx][cy - 1]) {
+      number = number + 1
+    } if (bomb[cx][cy + 1]) {
+      number = number + 1
+    } if (bomb[cx][cy]) {
+      number = number + 1
+    } if (bomb[cx + 1][cy - 1]) {
+      number = number + 1
+    } if (bomb[cx + 1][cy + 1]) {
+      number = number + 1
+    } if (bomb[cx + 1][cy]) {
+      number = number + 1
+    }
+    ctx.font = "100px arial";
+    ctx.fillStyle = "black"
+    ctx.fillText(number, cy * 101, cx * 101 + 101);
+  }function solve(){
+    if(number === 0){
+      bombCheck([cx - 1],[cy - 1])
+    }if(number === 0){
+      bombCheck([cx - 1],[cy + 1])
+    }if(number === 0){
+      bombCheck([cx - 1],[cy])
+    }if (bomb[cx][cy - 1])
+    solve()
+  }
+</script> /*if (bomb[cx - 1][cy - 1]) {
+number = number + 1
+} if (bomb[cx - 1][cy + 1]) {
+number = number + 1
+} if (bomb[cx - 1][cy]) {
+number = number + 1
+} if (bomb[cx][cy - 1]) {
+number = number + 1
+} if (bomb[cx][cy + 1]) {
+number = number + 1
+} if (bomb[cx][cy]) {
+number = number + 1
+} if (bomb[cx + 1][cy - 1]) {
+number = number + 1
+} if (bomb[cx + 1][cy + 1]) {
+number = number + 1
+} if (bomb[cx + 1][cy]) {
+number = number + 1
+}
+*/

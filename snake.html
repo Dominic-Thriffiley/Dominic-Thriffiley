@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>JS Bin</title>
+    <img src="apple.jpg" hidden id="apple" width="101" height="101">
+</head>
+
+<body>
+    <canvas id="myCanvas" width="1800" height="900">
+
+    </canvas>
+    <script>
+        var c = document.getElementById("myCanvas");
+        var ctx = c.getContext("2d");
+        var img = document.getElementById("apple")
+        var sPressed = false
+        var wPressed = false
+        var dPressed = false
+        var aPressed = false
+        var rPressed = false
+        var run = true
+        var win = false
+        var normalTail = true
+        var box = 101
+        var boxY = 101
+        var tailX = []
+        var tailY = []
+        var appleX = 101
+        var appleY = 303
+        var score = 1
+
+        /*document.addEventListener("keyup", keyupHandler)*/
+        document.addEventListener("keydown", keydownHandler)
+        setInterval(drawSnake, 8 * 25)
+        function drawSnake() {
+            if (run) {
+                //draw grid
+                normalTail = true
+                for (i = 0; i < 8; i = i + 1) {
+                    for (j = 0; j < 8; j = j + 1) {
+                        ctx.fillStyle = "black"
+                        ctx.fillRect(i * 101, j * 101, 100, 100)
+                    }
+                }
+                ctx.fillStyle = "blue"
+                ctx.fillRect(box, boxY, 100, 100)
+
+                //apple
+                ctx.drawImage(img, appleX, appleY, 100, 100);
+                if (appleX === box) {
+                    if (appleY === boxY) {
+                        tailX.push(box)
+                        tailY.push(boxY)
+                        normalTail = false
+                        //randomize location of apple
+                        appleX = Math.floor(Math.random() * 7) * 101;
+                        appleY = Math.floor(Math.random() * 7) * 101;
+                    }
+                } for (i = 0; i < tailX.length; i++) {
+                    if (appleX === tailX[i]) {
+                        if (appleY === tailY[i]) {
+                            appleX = Math.floor(Math.random() * 7) * 101;
+                            appleY = Math.floor(Math.random() * 7) * 101;
+                        }
+                    }
+                }
+                ctx.fillStyle = "blue"
+                //move the box               
+                if (wPressed) {
+                    boxY = boxY - 101
+                } else if (sPressed) {
+                    boxY = boxY + 101
+                } else if (dPressed) {
+                    box = box + 101
+                } else if (aPressed) {
+                    box = box - 101
+                }
+                //if you hit yourself
+                for (i = 0; i < tailX.length; i++) {
+                    if (tailX[i] === box) {
+                        if (tailY[i] === boxY) {
+                            run = false
+                        }
+                    }
+                }
+
+                //tail   
+                tailX.push(box)
+                tailX.splice(0, 1)
+                tailY.push(boxY)
+                tailY.splice(0, 1)
+                if (normalTail === false) {
+                    score = score + 1
+                }
+                for (i = 0; i < tailX.length; i++) {
+                    ctx.fillRect(tailX[i], tailY[i], 100, 100)
+                }
+
+                // text and boundry
+                if (box >= 808) {
+                    run = false
+                } if (box <= -101) {
+                    run = false
+                } if (boxY >= 808) {
+                    run = false
+                } if (boxY <= -101) {
+                    run = false
+                }
+            }
+
+            //win code
+            if (tailX.length >= 63) {
+                ctx.font = "100px Courier New";
+                ctx.fillText("You Win, Hit R to Replay", 100, 400)
+                ctx.fillText("Score = " + score, 1000, 700)
+                run = false
+                win = true                
+                if (rPressed) {
+                    ctx.reset()
+                    run = true
+                    box = 101
+                    boxY = 0
+                    tailX = []
+                    tailY = []
+                    appleX = Math.floor(Math.random() * 7) * 101;
+                    appleY = Math.floor(Math.random() * 7) * 101;
+                    score = 1
+                }
+            }
+
+            //Dead Code
+            if (run === false) {
+                if (win === false) {
+                    ctx.font = "100px Courier New";
+                    ctx.fillText("Game Over, Hit R to Replay", 100, 100)
+                    ctx.fillText("Score = " + score, 1000, 700)
+                }
+                if (rPressed) {
+                    ctx.reset()
+                    run = true
+                    box = 101
+                    boxY = 0
+                    tailX = []
+                    tailY = []
+                    appleX = Math.floor(Math.random() * 7) * 101;
+                    appleY = Math.floor(Math.random() * 7) * 101;
+                    score = 1
+                }
+            }
+        }
+        // find the key
+        function keydownHandler(e) {
+            if (e.key === "w") {
+                wPressed = true
+                sPressed = false
+                dPressed = false
+                aPressed = false
+                rPressed = false
+            } else if (e.key === "s") {
+                sPressed = true
+                wPressed = false
+                dPressed = false
+                aPressed = false
+                rPressed = false
+            } else if (e.key === "d") {
+                dPressed = true
+                sPressed = false
+                wPressed = false
+                aPressed = false
+                rPressed = false
+            } else if (e.key === "a") {
+                aPressed = true
+                sPressed = false
+                wPressed = false
+                dPressed = false
+                rPressed = false
+            } else if (e.key === "r") {
+                rPressed = true
+                aPressed = false
+                sPressed = false
+                wPressed = false
+                dPressed = false
+            }
+        }
+        /*function keyupHandler(e) {
+        if (e.key === "w") {
+        wPressed = false
+        }
+        if (e.key === "s") {
+        sPressed = false
+        }
+        if (e.key === "d") {
+        dPressed = false
+        }
+        if (e.key === "a") {
+        aPressed = false
+        }
+        }
+        */
+    </script>
+</body>
+
+</html>

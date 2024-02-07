@@ -1,80 +1,3 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>Data Shapes</title>
-    <link rel="stylesheet" href="index.css" />
-    <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
-    <script src="index.js"></script>
-    <style>#board {
-      width: 400px;
-      margin: auto;
-      border: silver ridge 4px;
-    }
-    
-    #info-bar {
-      width: 400px;
-      height: 40px;
-      background: lightgray;
-      font-size: 40px;
-      text-align: center;
-    }
-    
-    #shape-container {
-      width: 400px;
-      height: 400px;
-      background: black;
-      border-top: silver ridge 4px;
-      border-bottom: silver ridge 4px;
-    }
-    
-    #button-box {
-      width: 400px;
-      height: 40px;
-      background: darkgray;
-    }
-    
-    #shape {
-      color: white;
-      width: 100px;
-      height: 100px;
-      position: relative;
-      top: 150px;
-      left: 150px;
-      border: white solid 2px;
-      display: block;
-    }
-    
-    button {
-      width: auto;
-      height: auto;
-      margin: auto;
-      margin-top: 10px;
-      margin-left: 9px;
-    }
-    
-    p {
-      margin: 10px;
-    }
-    </style>
-  </head>
-  <body>
-    <div id="board">
-      <div id="info-bar">Current index: 0</div>
-      <div id="shape-container">
-        <div id="shape"></div>
-      </div>
-      <div id="button-box">
-        <button id="cycle-left">Prev</button>
-        <button id="cycle-right">Next</button>
-        <button id="execute1">Display</button>
-        <button id="execute2">Display Good</button>
-        <button id="execute3">Display Bad</button>
-      </div>
-    </div>
-  </body>
-</html>
 $(document).ready(function () {
   /////////////////////////////////////////////////
   // SETUP SECTION - DO NOT TOUCH /////////////////
@@ -114,20 +37,20 @@ $(document).ready(function () {
   // ALL OF YOUR CODE SHOULD GO BELOW HERE ////////
   /////////////////////////////////////////////////
 
-  // TODO 1: create a new shape object and add it to the array     "//TODO 0 Complete"
-  
+  // TODO 1: create a new shape object and add it to the array
+
 
   // TODO 2: add a new property to all data shapes
-  
+
 
   // TODO 3-a: add a function that handles the static display type
-  
+
 
   // TODO 4-a: add a function that handles the good display type
-  
+
 
   // TODO 5-a: add a function that handles the bad display type
-  
+
 
   /////////////////////////////////////////////////
   // BUTTON HANDLERS BELOW HERE (3-b, 4-b, 5-b) ///
@@ -135,17 +58,17 @@ $(document).ready(function () {
 
   function staticDisplay() {
     // TODO 3-b: call your handleStatic function
-    
+    handleStatic(newObj.shape)
   }
 
   function goodDisplay() {
     // TODO 4-b: call your handleGood function
-    
+
   }
 
   function badDisplay() {
     // TODO 5-b: call your handleBad function
-    
+
   }
 
   /////////////////////////////////////////////////
@@ -182,8 +105,33 @@ $(document).ready(function () {
         }
       }
     }
-
+    {
+      var shape = {
+        color: "blue",
+        shape: "circle",
+        repeat: 3,
+      };
+      data.push(shape);
+    }
+    for (var i = 0; i < dataShapes.length; i++) {
+      var currentShape = dataShapes[i]
+      newObj.goodBehavior = "spin"
+      if (newObj.color === "red") {
+        newObj.goodBehavior = "bounce"
+      } if (newObj.color === "blue") {
+        newObj.goodBehavior = "blink"
+      } if (newObj.color !== "red") {
+          if (newObj.color !== "blue") {
+          newObj.goodBehavior = "spin"
+        }
+      }
+    }
+    function handleStatic(data){
+      setBackgroundWithObject(data)
+      animationDetails.displayType = 1
+    }
     return data;
+
   }
 
   // This function decrements the index of the currently selected object in the array (and resets the display type)
@@ -290,14 +238,14 @@ $(document).ready(function () {
     animationDetails.y += animationDetails.speedY;
     if (
       animationDetails.x + $("#shape").width() + 8 >=
-        $("#shape-container").width() ||
+      $("#shape-container").width() ||
       animationDetails.x < 2
     ) {
       animationDetails.speedX *= -1;
     }
     if (
       animationDetails.y + $("#shape").height() + 4 >=
-        $("#shape-container").height() ||
+      $("#shape-container").height() ||
       animationDetails.y < 2
     ) {
       animationDetails.speedY *= -1;
